@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Bitaxe Viewer",
+    "short_name": "Bitaxe Viewer",
+    "version": "1.0",
+    "description": "Scans the network for Bitaxe devices and retrieves their values.",
+    "action": {
+        "default_icon": "img/mining.png",
+        "default_title": "Bitaxe Viewer",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "http://*/api/system/info"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}
