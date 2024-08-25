@@ -133,6 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    document.getElementById('donate-button').addEventListener('click', function() {
+        window.open('https://btcpay.wantclue.de/api/v1/invoices?storeId=8dWaktC9oEgPawxukqix4bZNQzmvPCkKczZbsxnj8AQo&orderId=donation&checkoutDesc=Thanks%20for%20helping%20me%20keep%20everything%20up%20to%20date&price=2&currency=EUR&defaultPaymentMethod=BTC_LightningLike', '_blank');
+    });
+
     chrome.runtime.onMessage.addListener((message) => {
         if (message.type === 'partialResult') {
             // Check if this IP already exists in currentResults
