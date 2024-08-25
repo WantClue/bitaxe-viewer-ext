@@ -1,5 +1,5 @@
 # Bitaxe Viewer Chrome Extension
-
+![BitaxeViewerExtension](/img/bitaxeviewer.png)
 ## Overview
 
 The Bitaxe Viewer is a Chrome extension designed to scan local networks for Bitaxe devices and display their hash rates. This tool is invaluable for Bitcoin miners using Bitaxe hardware, allowing quick and easy monitoring of their devices' performance across the network.
