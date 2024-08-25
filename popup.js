@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 currentResults.push(message.data);
             }
             displayResults(currentResults);
+            chrome.storage.local.set({ 'storedEndpoints': currentResults }); // Update storage on each partial result
         }
     });
 });
