@@ -1,3 +1,4 @@
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/wantclue/bitaxe-viewer-ext/total)
 # Bitaxe Viewer Chrome Extension
 ![BitaxeViewerExtension](/img/bitaxeviewer.png)
 ## Overview
