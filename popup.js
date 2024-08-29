@@ -3,6 +3,10 @@ function formatHashRate(hashRate) {
     return hashRate.toFixed(2) + ' GH/s';
 }
 
+function formatPower(power) {
+    if(power >= 1e0) return (power / 1e0).toFixed(2);
+}
+
 function getLocalIPAddress(callback) {
     const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
     pc.createDataChannel("");
@@ -40,16 +44,30 @@ function displayResults(results) {
     } else {
         // Use a Set to keep track of unique IPs
         const uniqueIPs = new Set();
-        
+
         results.forEach(result => {
             if (!uniqueIPs.has(result.ip)) {
                 uniqueIPs.add(result.ip);
                 const resultElement = document.createElement('div');
                 resultElement.className = 'result-item';
-                resultElement.innerHTML = `
-                    <span class="ip">IP: ${result.ip}</span>
-                    <span class="hash-rate">HashRate: ${formatHashRate(result.hashRate)}</span>
-                `;
+                let innerHTML = `<span class="ip">IP: ${result.ip}</span>`;
+                
+                if (result.hashRate !== undefined) {
+                    innerHTML += `<span class="hash-rate">HashRate: ${formatHashRate(result.hashRate)}</span>`;
+                }
+                if (result.temp !== undefined) {
+                    innerHTML += `<span class="temp">Temp: ${result.temp}°C</span>`;
+                }
+                if (result.power !== undefined) {
+                    innerHTML += `<span class="power">Power: ${formatPower(result.power)}W</span>`;
+                }
+                
+                resultElement.innerHTML = innerHTML;
+                resultElement.style.cursor = 'pointer';
+                resultElement.title = 'Click to open device interface';
+                resultElement.addEventListener('click', () => {
+                    chrome.tabs.create({ url: `http://${result.ip}` });
+                });
                 resultsDiv.appendChild(resultElement);
             }
         });
@@ -65,7 +83,9 @@ async function refreshStoredData(storedEndpoints) {
                 const data = await response.json();
                 refreshedResults.push({
                     ip: endpoint.ip,
-                    hashRate: data.hashRate_1h !== undefined ? data.hashRate_1h : data.hashRate
+                    hashRate: data.hashRate_1h !== undefined ? data.hashRate_1h : data.hashRate,
+                    temp: data.temp,
+                    power: data.power
                 });
             }
         } catch (error) {
@@ -143,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const existingIndex = currentResults.findIndex(item => item.ip === message.data.ip);
             if (existingIndex !== -1) {
                 // Update existing entry
-                currentResults[existingIndex] = message.data;
+                currentResults[existingIndex] = {...currentResults[existingIndex], ...message.data};
             } else {
                 // Add new entry
                 currentResults.push(message.data);

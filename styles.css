@@ -105,6 +105,10 @@ h1 {
     border-radius: 5px;
 }
 
+.result-item:hover {
+    background-color: #40444b;
+}
+
 .result-item .ip {
     font-weight: bold;
     color: #ffffff;
@@ -112,8 +116,22 @@ h1 {
     margin-bottom: 5px;
 }
 
+.result-item:hover .ip {
+    color: #d62a2a;
+}
+
 .result-item .hash-rate {
-    color: #43b581;
+    color: #27e9a8;
+    display: block;
+}
+
+.result-item .temp {
+    color: #ff9800; 
+    display: block;
+}
+
+.result-item .power {
+    color: #28d345;
     display: block;
 }
 

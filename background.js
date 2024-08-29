@@ -1,20 +1,30 @@
-async function fetchHashRate(ip) {
+async function fetchData(ip) {
     try {
         const response = await fetch(`http://${ip}/api/system/info`, { timeout: 1000 });
         if (response.ok) {
             const data = await response.json();
+            const result = { ip };
+
             if (data.hashRate_1h !== undefined) {
-                chrome.runtime.sendMessage({
-                    type: 'partialResult', 
-                    data: { ip, hashRate: data.hashRate_1h }
-                });
-                return { ip, hashRate: data.hashRate_1h };
+                result.hashRate = data.hashRate_1h;
             } else if (data.hashRate !== undefined) {
+                result.hashRate = data.hashRate;
+            }
+
+            if (data.temp !== undefined) {
+                result.temp = data.temp;
+            }
+
+            if (data.power !== undefined) {
+                result.power = data.power;
+            }
+
+            if (Object.keys(result).length > 1) {  // More than just IP
                 chrome.runtime.sendMessage({
                     type: 'partialResult', 
-                    data: { ip, hashRate: data.hashRate }
+                    data: result
                 });
-                return { ip, hashRate: data.hashRate };
+                return result;
             }
         }
     } catch (error) {
@@ -29,7 +39,7 @@ async function scanNetwork(baseAddress) {
 
     for (let i = 1; i <= 255; i++) {
         const ip = `${baseAddress}${i}`;
-        promises.push(fetchHashRate(ip));
+        promises.push(fetchData(ip));
     }
 
     const responses = await Promise.all(promises);
