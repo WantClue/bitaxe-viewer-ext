@@ -10,8 +10,7 @@
         "default_popup": "popup.html"
     },
     "permissions": [
-        "storage",
-        "tabs"
+        "storage"
     ],
     "host_permissions": [
         "http://*/api/system/info"
