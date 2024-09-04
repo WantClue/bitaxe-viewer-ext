@@ -135,6 +135,11 @@ h1 {
     display: block;
 }
 
+.result-item .best-diff {
+    color: yellow;
+    display: block;
+}
+
 .scanning-message {
     text-align: center;
     color: #99aab5;
@@ -178,10 +183,10 @@ h1 {
     color: #28d345;
 }
 
-.aggregated-info .device-count {
-    color: #ffffff;
+.aggregated-info .overall-best-diff {
+    color: yellow;
 }
 
-.aggregated-info .avg-efficiency {
-    color: #ff9800;
+.aggregated-info .device-count {
+    color: #ffffff;
 }

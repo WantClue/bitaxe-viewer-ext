@@ -63,7 +63,7 @@ function displayResults(results) {
                     innerHTML += `<span class="power">Power: ${formatPower(result.power)}W</span>`;
                 }
                 if (result.bestDiff !== undefined) {
-                    innerHTML += `<span class="power">BD: ${result.bestDiff}</span>`
+                    innerHTML += `<span class="best-diff">BD: ${result.bestDiff}</span>`;
                 }
                 
                 resultElement.innerHTML = innerHTML;
@@ -81,6 +81,33 @@ function displayResults(results) {
     displayAggregatedHashrate(results);
 }
 
+function parseDifficulty(diffString) {
+    const units = {
+        'k': 1e3,
+        'M': 1e6,
+        'G': 1e9,
+        'T': 1e12,
+        'P': 1e15
+    };
+    const match = diffString.match(/^(\d+(\.\d+)?)([kMGTP])?$/);
+    if (match) {
+        const value = parseFloat(match[1]);
+        const unit = match[3] || '';
+        return value * (units[unit] || 1);
+    }
+    return 0; // Return 0 if the string doesn't match the expected format
+}
+
+function formatDifficulty(value) {
+    const units = ['', 'k', 'M', 'G', 'T', 'P'];
+    let unitIndex = 0;
+    while (value >= 1000 && unitIndex < units.length - 1) {
+        value /= 1000;
+        unitIndex++;
+    }
+    return value.toFixed(2) + units[unitIndex];
+}
+
 function displayAggregatedHashrate(results) {
     const aggregatedDiv = document.createElement('div');
     aggregatedDiv.id = 'aggregated-hashrate';
@@ -92,6 +119,7 @@ function displayAggregatedHashrate(results) {
         let totalHashRate = 0;
         let totalPower = 0;
         let deviceCount = 0;
+        let overallBestDiff = 0;
 
         results.forEach(result => {
             if (result.hashRate !== undefined) {
@@ -101,12 +129,15 @@ function displayAggregatedHashrate(results) {
             if (result.power !== undefined) {
                 totalPower += parseFloat(result.power);
             }
+            if (result.bestDiff !== undefined) {
+                overallBestDiff = Math.max(overallBestDiff, parseDifficulty(result.bestDiff));
+            }
         });
-
 
         aggregatedDiv.innerHTML = `
             <span class="total-hashrate">Total Hashrate: ${formatHashRate(totalHashRate)}</span>
             <span class="total-power">Total Power: ${formatPower(totalPower)}W</span>
+            <span class="overall-best-diff">Overall Best Diff: ${formatDifficulty(overallBestDiff)}</span>
             <span class="device-count">Device Count: ${deviceCount}</span>
         `;
     }
@@ -126,7 +157,8 @@ async function refreshStoredData(storedEndpoints) {
                     ip: endpoint.ip,
                     hashRate: data.hashRate_1h !== undefined ? data.hashRate_1h : data.hashRate,
                     temp: data.temp,
-                    power: data.power
+                    power: data.power,
+                    bestDiff: data.bestDiff
                 });
             }
         } catch (error) {
