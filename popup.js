@@ -158,7 +158,11 @@ async function refreshStoredData(storedEndpoints) {
                     hashRate: data.hashRate_1h !== undefined ? data.hashRate_1h : data.hashRate,
                     temp: data.temp,
                     power: data.power,
-                    bestDiff: data.bestDiff
+                    bestDiff: data.bestDiff,
+                    totalHashRate: data.totalHashRate,
+                    totalPower: data.totalPower,
+                    overallBestDiff: data.overallBestDiff,
+                    deviceCount: data.deviceCount
                 });
             }
         } catch (error) {
