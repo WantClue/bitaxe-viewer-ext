@@ -148,3 +148,40 @@ h1 {
     font-weight: bold;
     padding: 10px;
 }
+
+/* New styles for aggregated hashrate display */
+#aggregated-hashrate {
+    background-color: #2f3136;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #42464d;
+}
+
+.aggregated-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.aggregated-info span {
+    flex-basis: 48%;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.aggregated-info .total-hashrate {
+    color: #27e9a8;
+}
+
+.aggregated-info .total-power {
+    color: #28d345;
+}
+
+.aggregated-info .device-count {
+    color: #ffffff;
+}
+
+.aggregated-info .avg-efficiency {
+    color: #ff9800;
+}

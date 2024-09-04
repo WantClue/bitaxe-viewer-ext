@@ -4,7 +4,8 @@ function formatHashRate(hashRate) {
 }
 
 function formatPower(power) {
-    if(power >= 1e0) return (power / 1e0).toFixed(2);
+    if (power >= 1e0) return (power / 1e0).toFixed(2);
+    return '0.00';
 }
 
 function getLocalIPAddress(callback) {
@@ -72,6 +73,43 @@ function displayResults(results) {
             }
         });
     }
+
+    // Display aggregated hashrate after individual results
+    displayAggregatedHashrate(results);
+}
+
+function displayAggregatedHashrate(results) {
+    const aggregatedDiv = document.createElement('div');
+    aggregatedDiv.id = 'aggregated-hashrate';
+    aggregatedDiv.className = 'aggregated-info';
+
+    if (!results || results.length === 0) {
+        aggregatedDiv.innerHTML = '<div class="error-message">No Bitaxe devices found.</div>';
+    } else {
+        let totalHashRate = 0;
+        let totalPower = 0;
+        let deviceCount = 0;
+
+        results.forEach(result => {
+            if (result.hashRate !== undefined) {
+                totalHashRate += result.hashRate;
+                deviceCount++;
+            }
+            if (result.power !== undefined) {
+                totalPower += parseFloat(result.power);
+            }
+        });
+
+
+        aggregatedDiv.innerHTML = `
+            <span class="total-hashrate">Total Hashrate: ${formatHashRate(totalHashRate)}</span>
+            <span class="total-power">Total Power: ${formatPower(totalPower)}W</span>
+            <span class="device-count">Device Count: ${deviceCount}</span>
+        `;
+    }
+
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.insertBefore(aggregatedDiv, resultsDiv.firstChild);
 }
 
 async function refreshStoredData(storedEndpoints) {
