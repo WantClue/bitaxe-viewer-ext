@@ -62,6 +62,9 @@ function displayResults(results) {
                 if (result.power !== undefined) {
                     innerHTML += `<span class="power">Power: ${formatPower(result.power)}W</span>`;
                 }
+                if (result.bestDiff !== undefined) {
+                    innerHTML += `<span class="power">BD: ${result.bestDiff}</span>`
+                }
                 
                 resultElement.innerHTML = innerHTML;
                 resultElement.style.cursor = 'pointer';

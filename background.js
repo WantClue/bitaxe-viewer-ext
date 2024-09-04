@@ -19,6 +19,10 @@ async function fetchData(ip) {
                 result.power = data.power;
             }
 
+            if (data.bestDiff !== undefined) {
+                result.bestDiff = data.bestDiff;
+            }
+
             if (Object.keys(result).length > 1) {  // More than just IP
                 chrome.runtime.sendMessage({
                     type: 'partialResult', 
