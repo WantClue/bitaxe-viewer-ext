@@ -24,7 +24,7 @@ async function fetchData(ip) {
             }
 
             if (Object.keys(result).length > 1) {  // More than just IP
-                chrome.runtime.sendMessage({
+                browser.runtime.sendMessage({
                     type: 'partialResult', 
                     data: result
                 });
@@ -56,11 +56,17 @@ async function scanNetwork(baseAddress) {
     return results;
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender) => {
     if (request.action === "scanNetwork") {
-        scanNetwork(request.baseAddress).then((results) => {
-            sendResponse({ results });
+        return new Promise((resolve, reject) => {
+            scanNetwork(request.baseAddress)
+                .then(results => {
+                    resolve({ results: results });
+                })
+                .catch(error => {
+                    console.error('Error during network scan:', error);
+                    reject(error);
+                });
         });
-        return true; // Will respond asynchronously
     }
 });

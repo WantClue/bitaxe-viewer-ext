@@ -83,6 +83,7 @@ h1 {
     border: none;
     padding: 10px 15px;
     font-size: 16px;
+    margin-top: 5px;
     cursor: pointer;
     width: 100%;
     transition: background-color 0.3s ease;
@@ -91,6 +92,20 @@ h1 {
 
 .scan-button:hover {
     background-color: #677bc4;
+}
+
+#refresh-button {
+    background-color: #72da95;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 15px;
+    margin-top: 15px;
+    margin-left: 5rem;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .results {
@@ -153,6 +168,7 @@ h1 {
     font-weight: bold;
     padding: 10px;
 }
+
 
 /* New styles for aggregated hashrate display */
 #aggregated-hashrate {

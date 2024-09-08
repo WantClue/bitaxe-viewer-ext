@@ -12,8 +12,14 @@
             <img src="img/bitaxe_light.png" alt="Bitaxe" class="logo">
             <h1 class="viewer-text">Viewer</h1>
         </div>
-        <div id="networkDisplay" class="network-display"></div>
-        <button id="scan-button" class="scan-button">Scan for Bitaxe devices</button>
+        <div id="ip-config">
+            <input type="text" id="ip-input" placeholder="Enter your IP (e.g., 192.168.1.100)">
+            <button id="save-ip">Save</button>
+        </div>
+        <div class="button-row">
+            <button id="scan-button" class="scan-button">Scan for Bitaxe devices</button>
+            <button id="refresh-button">Refresh Data</button>
+        </div>
         <div id="results" class="results"></div>
     </div>
     <script src="popup.js"></script>
